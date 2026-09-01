@@ -488,10 +488,10 @@ const tabs = [
       </div>
 
 <div key={tab} className="rise-in pt-6">
-  {tab === "onboarding" ? <OnboardingView /> : null}
   {tab === "risk" ? <RiskView /> : null}
   {tab === "signals" ? <SignalsView /> : null}
   {tab === "people" ? <PeopleView onSelect={(i) => onPerson?.(i)} /> : null}
+  {tab === "onboarding" ? <OnboardingView /> : null}
 </div>
     </div>
   );
