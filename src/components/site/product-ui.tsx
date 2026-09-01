@@ -334,6 +334,103 @@ function RiskView() {
   );
 }
 
+/* ----------------------------------------------------------- onboarding view */
+function OnboardingView() {
+  const { lang } = useI18n();
+  const c = landingCopy(lang);
+
+  // Datos de demostración (20 usuarios)
+  const users = [
+    { name: "Sarah Mitchell", dept: "Finance", role: "Manager", risk: 42 },
+    { name: "David Reed", dept: "Sales", role: "Account Exec", risk: 68 },
+    { name: "Mike Johnson", dept: "IT", role: "Analyst", risk: 35 },
+    { name: "Emily Carter", dept: "HR", role: "Coordinator", risk: 28 },
+    { name: "Rachel Adams", dept: "Marketing", role: "Director", risk: 55 },
+    { name: "Tom Bennett", dept: "Operations", role: "Manager", risk: 47 },
+    { name: "Laura Chen", dept: "Engineering", role: "Lead Developer", risk: 72 },
+    { name: "James Wilson", dept: "Finance", role: "Analyst", risk: 31 },
+    { name: "Maria Garcia", dept: "Sales", role: "VP of Sales", risk: 81 },
+    { name: "Robert Kim", dept: "IT", role: "Security Engineer", risk: 22 },
+    { name: "Patricia Brown", dept: "HR", role: "Director", risk: 39 },
+    { name: "Daniel Okafor", dept: "Marketing", role: "Specialist", risk: 44 },
+    { name: "Jessica Lee", dept: "Operations", role: "Coordinator", risk: 26 },
+    { name: "Mark Thompson", dept: "Engineering", role: "Developer", risk: 63 },
+    { name: "Angela White", dept: "Finance", role: "Controller", risk: 58 },
+    { name: "Steven Park", dept: "Sales", role: "Account Manager", risk: 50 },
+    { name: "Karen Davis", dept: "IT", role: "SysAdmin", risk: 41 },
+    { name: "Brian Martinez", dept: "HR", role: "Recruiter", risk: 33 },
+    { name: "Melissa Taylor", dept: "Marketing", role: "Content Manager", risk: 48 },
+    { name: "George Adams", dept: "Operations", role: "Director", risk: 56 },
+  ];
+
+  return (
+    <div className="space-y-6">
+      <div>
+        <h3 className="text-xl font-semibold">{c.onboardingTitle}</h3>
+        <p className="text-muted-foreground">{c.onboardingSub}</p>
+      </div>
+
+      {/* Tarjetas de conexión a directorios */}
+      <div className="grid gap-4 md:grid-cols-2">
+        <div className="rounded-xl border bg-background/60 p-4">
+          <h4 className="font-medium">{c.googleWorkspace}</h4>
+          <div className="text-sm text-muted-foreground">5 empleados · 10 usuarios activos</div>
+          <div className="mt-2 flex justify-between border-t pt-2">
+            <span>Estado</span>
+            <span className="text-green-600">✅ {c.googleStatus}</span>
+          </div>
+        </div>
+        <div className="rounded-xl border bg-background/60 p-4">
+          <h4 className="font-medium">{c.ms365}</h4>
+          <div className="text-sm text-muted-foreground">Active AD: 0ms (0)</div>
+          <div className="mt-2 flex justify-between border-t pt-2">
+            <span>Estado</span>
+            <span className="text-muted-foreground">⏳ {c.msStatus}</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Tabla de usuarios sincronizados */}
+      <div>
+        <div className="mb-2 flex items-center justify-between">
+          <span className="font-semibold">{c.usersSynced}</span>
+          <span className="text-sm text-muted-foreground">20 usuarios</span>
+        </div>
+        <div className="rounded-xl border bg-background/60 p-2 overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="border-b text-left">
+                <th className="p-2">Nombre</th>
+                <th className="p-2">Departamento</th>
+                <th className="p-2">Rol</th>
+                <th className="p-2">Riesgo</th>
+              </tr>
+            </thead>
+            <tbody>
+              {users.map((u) => (
+                <tr key={u.name} className="border-b border-border/50">
+                  <td className="p-2 font-medium">{u.name}</td>
+                  <td className="p-2">{u.dept}</td>
+                  <td className="p-2">{u.role}</td>
+                  <td className="p-2">
+                    <span className={`inline-block rounded-full px-2 py-0.5 text-xs font-medium ${
+                      u.risk >= 65 ? 'bg-red-100 text-red-700' :
+                      u.risk >= 45 ? 'bg-yellow-100 text-yellow-700' :
+                      'bg-green-100 text-green-700'
+                    }`}>
+                      {u.risk}
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /* --------------------------------------------------------- the showcase */
 
 export function Fensivo360Showcase({
@@ -342,22 +439,24 @@ export function Fensivo360Showcase({
   onTabChange,
 }: {
   onPerson?: (i: number) => void;
-  tab?: "risk" | "signals" | "people";
-  onTabChange?: (t: "risk" | "signals" | "people") => void;
+  tab?: "risk" | "signals" | "people" | "onboarding";   // ← añadir "onboarding"
+  onTabChange?: (t: "risk" | "signals" | "people" | "onboarding") => void;  // ← añadir
 }) {
   const { lang } = useI18n();
   const c = landingCopy(lang);
-  const [tabState, setTabState] = useState<"risk" | "signals" | "people">("risk");
+  const [tabState, setTabState] = useState<"risk" | "signals" | "people" | "onboarding">("risk");  // ← añadir
   const tab = tabProp ?? tabState;
-  const setTab = (k: "risk" | "signals" | "people") => {
+  const setTab = (k: "risk" | "signals" | "people" | "onboarding") => {  // ← añadir
     setTabState(k);
     onTabChange?.(k);
   };
-  const tabs = [
-    { k: "risk" as const, l: c.tabRisk },
-    { k: "signals" as const, l: c.tabSignals },
-    { k: "people" as const, l: c.tabPeople },
-  ];
+
+const tabs = [
+  { k: "onboarding" as const, l: c.tabOnboarding },
+  { k: "risk" as const, l: c.tabRisk },
+  { k: "signals" as const, l: c.tabSignals },
+  { k: "people" as const, l: c.tabPeople },
+];
 
 
   return (
@@ -388,11 +487,12 @@ export function Fensivo360Showcase({
         <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">{c.demoData}</span>
       </div>
 
-      <div key={tab} className="rise-in pt-6">
-        {tab === "risk" ? <RiskView /> : null}
-        {tab === "signals" ? <SignalsView /> : null}
-        {tab === "people" ? <PeopleView onSelect={(i) => onPerson?.(i)} /> : null}
-      </div>
+<div key={tab} className="rise-in pt-6">
+  {tab === "onboarding" ? <OnboardingView /> : null}
+  {tab === "risk" ? <RiskView /> : null}
+  {tab === "signals" ? <SignalsView /> : null}
+  {tab === "people" ? <PeopleView onSelect={(i) => onPerson?.(i)} /> : null}
+</div>
     </div>
   );
 }
