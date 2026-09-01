@@ -1,0 +1,353 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * FENSIVO design system — "enterprise security operations".
+ * Near-black base, deep navy surfaces, electric blue + cyan intelligence accents.
+ */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-raised: var(--raised);
+  --color-line: var(--line);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-cyan: var(--cyan);
+  --color-signal: var(--signal);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-critical: var(--critical);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+  --font-sans: "Manrope", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Plus Jakarta Sans", "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+}
+
+:root {
+  --radius: 0.7rem;
+
+  /* Paleta oficial Fensivo 360: navy profundo #131A40 + cian #00CBFF. */
+  --background: oklch(0.24 0.05 262);
+  --foreground: oklch(0.97 0.01 250);
+  --surface: oklch(0.29 0.06 262);
+  --raised: oklch(0.34 0.065 262);
+  --line: oklch(0.42 0.07 262);
+
+  --card: oklch(0.29 0.06 262);
+  --card-foreground: oklch(0.97 0.01 250);
+  --popover: oklch(0.27 0.055 262);
+  --popover-foreground: oklch(0.97 0.01 250);
+
+  --primary: oklch(0.82 0.14 222);
+  --primary-foreground: oklch(0.20 0.05 262);
+  --secondary: oklch(0.34 0.065 262);
+  --secondary-foreground: oklch(0.97 0.01 250);
+
+  --muted: oklch(0.34 0.065 262);
+  --muted-foreground: oklch(0.86 0.02 250);
+  --accent: oklch(0.36 0.07 262);
+  --accent-foreground: oklch(0.97 0.01 250);
+
+  --cyan: oklch(0.86 0.13 215);
+  --signal: oklch(0.80 0.15 235);
+  --success: oklch(0.8 0.15 150);
+  --warning: oklch(0.85 0.15 82);
+  --critical: oklch(0.66 0.21 26);
+
+  --destructive: oklch(0.66 0.21 26);
+  --destructive-foreground: oklch(0.99 0.004 250);
+  --border: oklch(0.42 0.07 262);
+  --input: oklch(0.42 0.07 262);
+  --ring: oklch(0.82 0.14 222);
+}
+
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    background-color: var(--color-background);
+  }
+
+  body {
+    background-color: transparent;
+    color: var(--color-foreground);
+    -webkit-font-smoothing: antialiased;
+    font-family: var(--font-sans);
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+  }
+}
+
+@utility grid-field {
+  background-image:
+    linear-gradient(
+      to right,
+      color-mix(in oklab, var(--color-primary) 7%, transparent) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      color-mix(in oklab, var(--color-primary) 6%, transparent) 1px,
+      transparent 1px
+    );
+  background-size: 56px 56px;
+}
+
+@utility glass-panel {
+  background: color-mix(in oklab, var(--color-surface) 72%, transparent);
+  backdrop-filter: blur(18px);
+  border: 1px solid color-mix(in oklab, var(--color-line) 80%, transparent);
+}
+
+@utility glow-primary {
+  box-shadow: 0 30px 90px -40px color-mix(in oklab, var(--color-primary) 75%, transparent);
+}
+
+@utility text-gradient {
+  background: linear-gradient(
+    100deg,
+    var(--color-foreground) 20%,
+    var(--color-cyan) 65%,
+    var(--color-primary) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@keyframes pulse-dot {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.3;
+    transform: scale(0.65);
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes dash-flow {
+  to {
+    stroke-dashoffset: -240;
+  }
+}
+
+@keyframes float-slow {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@utility dot-pulse {
+  animation: pulse-dot 2.2s ease-in-out infinite;
+}
+
+@utility marquee-track {
+  animation: marquee 38s linear infinite;
+}
+
+@utility rise-in {
+  animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+@utility flow-line {
+  stroke-dasharray: 6 10;
+  animation: dash-flow 6s linear infinite;
+}
+
+@utility float-slow {
+  animation: float-slow 7s ease-in-out infinite;
+}
+
+@utility type-cursor {
+  animation: cursor-blink 1s steps(1) infinite;
+}
+
+@keyframes cursor-blink {
+  0%, 55% { opacity: 1; }
+  56%, 100% { opacity: 0; }
+}
+
+@keyframes draw-line {
+  from {
+    stroke-dashoffset: 600;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@utility draw-line {
+  stroke-dasharray: 600;
+  animation: draw-line 1.4s ease-out both;
+}
+
+@keyframes grid-drift {
+  from { background-position: 0 0, 0 0; }
+  to { background-position: 56px 56px, 56px 56px; }
+}
+
+@utility grid-drift {
+  animation: grid-drift 26s linear infinite;
+}
+
+@keyframes aurora-a {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.75; }
+  50% { transform: translate3d(6vw, 4vh, 0) scale(1.12); opacity: 1; }
+}
+@keyframes aurora-b {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1.05); opacity: 0.6; }
+  50% { transform: translate3d(-5vw, -6vh, 0) scale(1); opacity: 0.95; }
+}
+@keyframes aurora-c {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.55; }
+  50% { transform: translate3d(4vw, -4vh, 0) scale(1.15); opacity: 0.85; }
+}
+
+@utility aurora-a { animation: aurora-a 30s ease-in-out infinite; }
+@utility aurora-b { animation: aurora-b 38s ease-in-out infinite; }
+@utility aurora-c { animation: aurora-c 34s ease-in-out infinite; }
+
+@keyframes scan-sweep {
+  0% { transform: translateY(-30%); opacity: 0; }
+  20% { opacity: 0.5; }
+  80% { opacity: 0.5; }
+  100% { transform: translateY(130%); opacity: 0; }
+}
+
+@utility scan-sweep {
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    color-mix(in oklab, var(--color-cyan) 8%, transparent),
+    transparent
+  );
+  height: 45vh;
+  animation: scan-sweep 14s linear infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+  }
+  25% {
+    transform: translateY(-8px) rotateX(2deg) rotateY(-3deg) rotateZ(1deg);
+  }
+  50% {
+    transform: translateY(-12px) rotateX(-2deg) rotateY(3deg) rotateZ(-1deg);
+  }
+  75% {
+    transform: translateY(-6px) rotateX(1deg) rotateY(-2deg) rotateZ(0.5deg);
+  }
+}
+
+@keyframes scan-line {
+  0% {
+    transform: translateY(-120px);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(120px);
+    opacity: 0;
+  }
+}
+
+@utility float-hex {
+  animation: float 6s ease-in-out infinite;
+}
+
+@utility scan-pulse {
+  animation: scan-line 2s ease-in-out infinite;
+}
+
+@keyframes flow-forward {
+  0% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: -12;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .draw-line,
+  .rise-in,
+  .marquee-track,
+  .float-slow,
+  .grid-drift,
+  .aurora-a,
+  .aurora-b,
+  .aurora-c,
+  .scan-sweep,
+  .dot-pulse {
+    animation: none !important;
+  }
+}
+
