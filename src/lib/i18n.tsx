@@ -35,8 +35,7 @@ const es: Dict = {
   "nav.openNav": "Abrir navegación",
   "nav.language": "Idioma",
   "nav.flagship": "Producto insignia",
-  "nav.flagshipDesc":
-    "Visibilidad unificada de ciberseguridad, inteligencia de riesgo y monitoreo de amenazas.",
+  "nav.flagshipDesc": "Visibilidad unificada de ciberseguridad, inteligencia de riesgo y monitoreo de amenazas.",
   "nav.launchTour": "Iniciar el tour del producto",
   "nav.watch360": "Mira Fensivo 360 en acción.",
   "nav.capabilities": "Capacidades",
