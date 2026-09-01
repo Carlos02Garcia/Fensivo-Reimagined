@@ -452,10 +452,10 @@ export function Fensivo360Showcase({
   };
 
 const tabs = [
-  { k: "onboarding" as const, l: c.tabOnboarding },
   { k: "risk" as const, l: c.tabRisk },
   { k: "signals" as const, l: c.tabSignals },
   { k: "people" as const, l: c.tabPeople },
+  { k: "onboarding" as const, l: c.tabOnboarding },
 ];
 
 
