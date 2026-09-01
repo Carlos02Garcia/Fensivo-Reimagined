@@ -263,23 +263,30 @@ export function Navbar() {
           <img src={logo} alt="Fensivo" className="h-6 w-auto md:h-7" />
         </Link>
 
+<nav className="hidden items-center gap-0.5 lg:flex">
+  {menus.map((m) => (
+    <button
+      key={m.key}
+      onMouseEnter={() => setOpen(m.key)}
+      onClick={() => setOpen((o) => (o === m.key ? null : m.key))}
+      className={cn(
+        "flex items-center gap-1 whitespace-nowrap rounded-md px-2.5 py-2 text-sm font-medium transition-colors",
+        open === m.key ? "bg-raised text-foreground" : "text-muted-foreground hover:text-foreground",
+      )}
+    >
+      {t(m.labelKey)}
+      <ChevronDown className={cn("size-3.5 transition-transform", open === m.key && "rotate-180")} />
+    </button>
+  ))}
 
-        <nav className="hidden items-center gap-0.5 lg:flex">
-          {menus.map((m) => (
-            <button
-              key={m.key}
-              onMouseEnter={() => setOpen(m.key)}
-              onClick={() => setOpen((o) => (o === m.key ? null : m.key))}
-              className={cn(
-                "flex items-center gap-1 whitespace-nowrap rounded-md px-2.5 py-2 text-sm font-medium transition-colors",
-                open === m.key ? "bg-raised text-foreground" : "text-muted-foreground hover:text-foreground",
-              )}
-            >
-              {t(m.labelKey)}
-              <ChevronDown className={cn("size-3.5 transition-transform", open === m.key && "rotate-180")} />
-            </button>
-          ))}
-        </nav>
+  {/* Nuevo enlace "Precios" justo después de Resources */}
+  <Link
+    to="/pricing"
+    className="flex items-center whitespace-nowrap rounded-md px-2.5 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+  >
+    {t("nav.pricing")}
+  </Link>
+</nav>
 
         <div className="hidden shrink-0 items-center gap-2 lg:flex">
           <LanguageSwitcher />
