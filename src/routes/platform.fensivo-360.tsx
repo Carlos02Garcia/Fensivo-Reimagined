@@ -35,7 +35,7 @@ function Page() {
         kicker="Fensivo 360"
         title={
           <>
-            Unified cybersecurity visibility, <span className="text-gradient">risk intelligence</span> y monitoreo de
+            Visibilidad Unificada de Ciberseguridad, <span className="text-gradient">inteligencia de riesgo</span> y monitoreo de
             amenazas.
           </>
         }
