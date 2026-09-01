@@ -12,4 +12,15 @@ export default defineConfig({
     // nitro/vite builds from this
     server: { entry: "server" },
   },
+  // Override the default cloudflare nitro preset so the production build
+  // is a plain Node server that listens on 0.0.0.0:3000 (Railway's default),
+  // instead of a Cloudflare Worker that never binds to a port.
+  nitro: {
+    prerender: false,
+    preset: "node-server",
+    server: {
+      host: "0.0.0.0",
+      port: Number(process.env.PORT) || 3000,
+    },
+  },
 });
