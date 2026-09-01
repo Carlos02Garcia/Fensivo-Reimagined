@@ -35,7 +35,6 @@ function riskColor(score: number) {
   return "var(--color-success)";
 }
 
-/** Anillo de score animado. */
 export function RiskRing({
   score,
   size = 148,
@@ -61,7 +60,6 @@ export function RiskRing({
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [score, active]);
 
   const r = size / 2 - 10;
@@ -92,7 +90,6 @@ export function RiskRing({
   );
 }
 
-/** Mini gráfico de tendencia con trazo animado. */
 export function Trend({ points, height = 72, color = "var(--color-cyan)" }: { points: number[]; height?: number; color?: string }) {
   const d = useMemo(() => {
     const max = Math.max(...points);
@@ -335,11 +332,11 @@ function RiskView() {
 }
 
 /* ----------------------------------------------------------- onboarding view */
+
 function OnboardingView() {
   const { lang } = useI18n();
   const c = landingCopy(lang);
 
-  // Datos de demostración (20 usuarios)
   const users = [
     { name: "Sarah Mitchell", dept: "Finance", role: "Manager", risk: 42 },
     { name: "David Reed", dept: "Sales", role: "Account Exec", risk: 68 },
@@ -370,7 +367,6 @@ function OnboardingView() {
         <p className="text-muted-foreground">{c.onboardingSub}</p>
       </div>
 
-      {/* Tarjetas de conexión a directorios */}
       <div className="grid gap-4 md:grid-cols-2">
         <div className="rounded-xl border bg-background/60 p-4">
           <h4 className="font-medium">{c.googleWorkspace}</h4>
@@ -390,13 +386,33 @@ function OnboardingView() {
         </div>
       </div>
 
-      {/* Tabla de usuarios sincronizados */}
       <div>
         <div className="mb-2 flex items-center justify-between">
           <span className="font-semibold">{c.usersSynced}</span>
           <span className="text-sm text-muted-foreground">20 usuarios</span>
         </div>
-        <div className="rounded-xl border bg-background/60 p-2 overflow-x-auto">
+
+        <div className="block sm:hidden space-y-3">
+          {users.map((u) => (
+            <div key={u.name} className="rounded-xl border bg-background/60 p-3">
+              <div className="flex justify-between items-start">
+                <div>
+                  <p className="font-semibold text-sm">{u.name}</p>
+                  <p className="text-xs text-muted-foreground">{u.role} · {u.dept}</p>
+                </div>
+                <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${
+                  u.risk >= 65 ? 'bg-red-100 text-red-700' :
+                  u.risk >= 45 ? 'bg-yellow-100 text-yellow-700' :
+                  'bg-green-100 text-green-700'
+                }`}>
+                  {u.risk}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="hidden sm:block rounded-xl border bg-background/60 p-2 overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b text-left">
@@ -439,60 +455,59 @@ export function Fensivo360Showcase({
   onTabChange,
 }: {
   onPerson?: (i: number) => void;
-  tab?: "risk" | "signals" | "people" | "onboarding";   // ← añadir "onboarding"
-  onTabChange?: (t: "risk" | "signals" | "people" | "onboarding") => void;  // ← añadir
+  tab?: "risk" | "signals" | "people" | "onboarding";
+  onTabChange?: (t: "risk" | "signals" | "people" | "onboarding") => void;
 }) {
   const { lang } = useI18n();
   const c = landingCopy(lang);
-  const [tabState, setTabState] = useState<"risk" | "signals" | "people" | "onboarding">("risk");  // ← añadir
+  const [tabState, setTabState] = useState<"risk" | "signals" | "people" | "onboarding">("onboarding");
   const tab = tabProp ?? tabState;
-  const setTab = (k: "risk" | "signals" | "people" | "onboarding") => {  // ← añadir
+  const setTab = (k: "risk" | "signals" | "people" | "onboarding") => {
     setTabState(k);
     onTabChange?.(k);
   };
 
-const tabs = [
-  { k: "risk" as const, l: c.tabRisk },
-  { k: "signals" as const, l: c.tabSignals },
-  { k: "people" as const, l: c.tabPeople },
-  { k: "onboarding" as const, l: c.tabOnboarding },
-];
-
+  const tabs = [ 
+    { k: "risk" as const, l: c.tabRisk },
+    { k: "signals" as const, l: c.tabSignals },
+    { k: "people" as const, l: c.tabPeople },
+    { k: "onboarding" as const, l: c.tabOnboarding },
+  ];
 
   return (
     <div className="overflow-hidden rounded-3xl border border-border bg-gradient-to-b from-surface to-background p-4 shadow-2xl shadow-black/40 md:p-8">
-      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-border/70 pb-5">
-        <div
-          role="tablist"
-          aria-label="Fensivo 360"
-          className="flex gap-1 rounded-xl border border-border bg-background/60 p-1"
-        >
-          {tabs.map((x) => (
-            <button
-              key={x.k}
-              role="tab"
-              aria-selected={tab === x.k}
-              onClick={() => setTab(x.k)}
-              className={cn(
-                "rounded-lg px-5 py-2.5 text-sm font-semibold transition-all",
-                tab === x.k
-                  ? "bg-primary text-primary-foreground shadow-[0_10px_30px_-16px_var(--color-primary)]"
-                  : "text-muted-foreground hover:text-foreground",
-              )}
-            >
-              {x.l}
-            </button>
-          ))}
-        </div>
-        <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">{c.demoData}</span>
-      </div>
-
-<div key={tab} className="rise-in pt-6">
-  {tab === "risk" ? <RiskView /> : null}
-  {tab === "signals" ? <SignalsView /> : null}
-  {tab === "people" ? <PeopleView onSelect={(i) => onPerson?.(i)} /> : null}
-  {tab === "onboarding" ? <OnboardingView /> : null}
+<div className="flex flex-wrap items-center justify-between gap-4 border-b border-border/70 pb-5">
+  <div
+    role="tablist"
+    aria-label="Fensivo 360"
+    className="flex flex-col sm:flex-row gap-1 rounded-xl border border-border bg-background/60 p-1 w-full sm:w-auto"
+  >
+    {tabs.map((x) => (
+      <button
+        key={x.k}
+        role="tab"
+        aria-selected={tab === x.k}
+        onClick={() => setTab(x.k)}
+        className={cn(
+          "rounded-lg px-5 py-2.5 text-sm font-semibold transition-all w-full sm:w-auto",
+          tab === x.k
+            ? "bg-primary text-primary-foreground shadow-[0_10px_30px_-16px_var(--color-primary)]"
+            : "text-muted-foreground hover:text-foreground",
+        )}
+      >
+        {x.l}
+      </button>
+    ))}
+  </div>
+  <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">{c.demoData}</span>
+  
 </div>
+      <div key={tab} className="rise-in pt-6">
+        {tab === "onboarding" ? <OnboardingView /> : null}
+        {tab === "risk" ? <RiskView /> : null}
+        {tab === "signals" ? <SignalsView /> : null}
+        {tab === "people" ? <PeopleView onSelect={(i) => onPerson?.(i)} /> : null}
+      </div>
     </div>
   );
 }
