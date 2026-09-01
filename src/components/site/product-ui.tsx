@@ -255,18 +255,18 @@ function SignalsView() {
         {items.map((it, i) => (
           <li
             key={it.body}
-            className="rise-in rounded-xl border border-border bg-background/60 p-4 transition-colors hover:border-primary/50"
+            className="rise-in rounded-xl border border-border bg-background/60 p-3 sm:p-4 transition-colors hover:border-primary/50"
             style={{ animationDelay: `${i * 120}ms` }}
           >
             <div className="flex items-start gap-3">
               <it.icon className={cn("mt-0.5 size-4 shrink-0", it.tone)} />
-              <div className="min-w-0">
+              <div className="flex-1 min-w-0">
                 <p className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
                   Fensivo · {it.time}
                 </p>
-                <p className="mt-1 text-sm leading-relaxed">{it.body}</p>
+                <p className="mt-1 text-sm leading-relaxed break-words">{it.body}</p>
                 {it.sub ? (
-                  <p className="mt-2 rounded-lg border border-border/70 bg-surface px-3 py-2 text-xs text-muted-foreground">
+                  <p className="mt-2 rounded-lg border border-border/70 bg-surface px-3 py-2 text-xs text-muted-foreground break-words">
                     {it.sub}
                   </p>
                 ) : null}
@@ -275,7 +275,7 @@ function SignalsView() {
           </li>
         ))}
       </ul>
-      <ol className="flex gap-3 lg:flex-col">
+      <ol className="flex flex-wrap gap-3 lg:flex-col">
         {steps.map((s, i) => (
           <li key={s} className="flex flex-1 items-center gap-3">
             <span className="grid size-7 shrink-0 place-items-center rounded-full border border-cyan/40 bg-cyan/10 font-mono text-[10px] text-cyan">
