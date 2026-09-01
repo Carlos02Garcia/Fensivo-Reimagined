@@ -46,7 +46,7 @@ function Page() {
             to="/demo"
             className="inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground hover:opacity-90"
           >
-            Launch Product Tour <ArrowRight className="size-4" />
+            Explora la plataforma → <ArrowRight className="size-4" />
           </Link>
           <Link
             to="/pricing"
